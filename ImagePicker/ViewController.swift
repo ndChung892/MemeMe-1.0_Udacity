@@ -36,13 +36,6 @@ class ViewController: UIViewController {
         unsubscribeFromKeyboardNotifications()
     }
     
-    @IBAction func pickAnImage(_ sender: Any) {
-        let pickerController = UIImagePickerController()
-        pickerController.delegate = self
-        pickerController.sourceType = UIImagePickerController.SourceType.photoLibrary
-        present(pickerController, animated: true, completion: nil)
-    }
-    
     func subscribeToKeyboardNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
 
@@ -50,18 +43,14 @@ class ViewController: UIViewController {
     
     func unsubscribeFromKeyboardNotifications() {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-        
     }
     
     @objc func keyboardWillShow(_ notification:Notification) {
-        
         view.frame.origin.y -= getKeyboardHeight(notification)
     }
     
     func getKeyboardHeight(_ notification:Notification) -> CGFloat {
-        
         let userInfo = notification.userInfo
         let keyboardSize = userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue
         return keyboardSize.cgRectValue.height
@@ -99,6 +88,7 @@ class ViewController: UIViewController {
     }
 }
 
+// MARK: - Image Picker Delegate
 extension ViewController: UIImagePickerControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
@@ -115,5 +105,16 @@ extension ViewController: UIImagePickerControllerDelegate {
         topTextField.isHidden = true
         bottomTextField.isHidden = true
         dismiss(animated: true, completion: nil)
+    }
+    
+}
+
+// MARK: - Navigation Controller Delegate
+extension ViewController: UINavigationControllerDelegate {
+    @IBAction func pickAnImage(_ sender: Any) {
+        let pickerController = UIImagePickerController()
+        pickerController.delegate = self
+        pickerController.sourceType = UIImagePickerController.SourceType.photoLibrary
+        present(pickerController, animated: true, completion: nil)
     }
 }
