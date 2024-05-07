@@ -7,10 +7,20 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+struct Meme {
+    var topText: String
+    var bottomText: String
+    var imagePicker: UIImage
+    var memeImage: UIImage
+    
+}
+
+class EditMemeViewController: UIViewController {
     
     
+    @IBOutlet weak var albumButton: UIBarButtonItem!
     @IBOutlet weak var bottomTextField: UITextField!
+    @IBOutlet weak var cameraButton: UIBarButtonItem!
     @IBOutlet weak var topTextField: UITextField!
     @IBOutlet weak var imagePickerView: UIImageView!
     
@@ -19,11 +29,12 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         topTextField.isHidden = true
         bottomTextField.isHidden = true
+        configTextField(topTextField)
+        configTextField(bottomTextField)
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -35,6 +46,26 @@ class ViewController: UIViewController {
         super.viewWillDisappear(animated)
         unsubscribeFromKeyboardNotifications()
     }
+
+    private func configTextField(_ textField: UITextField) {
+        textField.defaultTextAttributes = [
+            .font: UIFont(name:"HelveticaNeue-CondensedBlack", size: 35.0)!,
+            .foregroundColor: UIColor.white,
+            .strokeColor: UIColor.black,
+            .strokeWidth: -0.5
+        ]
+        
+        textField.textColor = UIColor.black
+        textField.textAlignment = .center
+    }
+    @IBAction func pickAnImageFromAlbum(_ sender: Any) {
+        pickImage(source: .photoLibrary)
+    }
+    
+    @IBAction func pickAnImageFromCamera(_ sender: Any) {
+        pickImage(source: .camera)
+    }
+    
     
     func subscribeToKeyboardNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -43,14 +74,18 @@ class ViewController: UIViewController {
     
     func unsubscribeFromKeyboardNotifications() {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        
     }
     
     @objc func keyboardWillShow(_ notification:Notification) {
+        
         view.frame.origin.y -= getKeyboardHeight(notification)
     }
     
     func getKeyboardHeight(_ notification:Notification) -> CGFloat {
+        
         let userInfo = notification.userInfo
         let keyboardSize = userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue
         return keyboardSize.cgRectValue.height
@@ -88,8 +123,7 @@ class ViewController: UIViewController {
     }
 }
 
-// MARK: - Image Picker Delegate
-extension ViewController: UIImagePickerControllerDelegate {
+extension EditMemeViewController: UIImagePickerControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             imagePickerView.image = image
@@ -106,15 +140,13 @@ extension ViewController: UIImagePickerControllerDelegate {
         bottomTextField.isHidden = true
         dismiss(animated: true, completion: nil)
     }
-    
 }
 
-// MARK: - Navigation Controller Delegate
-extension ViewController: UINavigationControllerDelegate {
-    @IBAction func pickAnImage(_ sender: Any) {
+extension EditMemeViewController: UINavigationControllerDelegate {
+    private func pickImage(source: UIImagePickerController.SourceType) {
         let pickerController = UIImagePickerController()
         pickerController.delegate = self
-        pickerController.sourceType = UIImagePickerController.SourceType.photoLibrary
+        pickerController.sourceType = source
         present(pickerController, animated: true, completion: nil)
     }
 }
