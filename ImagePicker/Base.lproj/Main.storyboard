@@ -47,11 +47,11 @@
                                     <constraint firstAttribute="height" constant="44" id="yya-5U-CwB"/>
                                 </constraints>
                                 <items>
-                                    <barButtonItem title="Pick" id="aun-qk-N58">
-                                        <connections>
-                                            <action selector="pickAnImage:" destination="BYZ-38-t0r" id="leF-SN-brY"/>
-                                        </connections>
-                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="1uU-RF-QwX"/>
+                                    <barButtonItem title="Pick" id="aun-qk-N58" userLabel="Album"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="qoZ-l5-c6s"/>
+                                    <barButtonItem title="Item" id="mAN-Sd-vrK" userLabel="Camera"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="sd5-ZX-0lv"/>
                                 </items>
                             </toolbar>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="TOP" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="euf-Oo-azc" userLabel="Top Text Field">
