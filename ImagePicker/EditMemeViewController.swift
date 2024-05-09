@@ -15,15 +15,20 @@ struct Meme {
     
 }
 
-class EditMemeViewController: UIViewController {
+class EditMemeViewController: UIViewController, UITextFieldDelegate {
     
     
+    @IBOutlet weak var cancelBtnEdit: UIBarButtonItem!
     @IBOutlet weak var albumButton: UIBarButtonItem!
     @IBOutlet weak var bottomTextField: UITextField!
     @IBOutlet weak var cameraButton: UIBarButtonItem!
     @IBOutlet weak var topTextField: UITextField!
     @IBOutlet weak var imagePickerView: UIImageView!
+    @IBOutlet weak var topToolBar: UIToolbar!
+    @IBOutlet weak var bottomToolBar: UIToolbar!
     
+    var topEdited = false
+    var bottomEdited = false
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +36,13 @@ class EditMemeViewController: UIViewController {
         bottomTextField.isHidden = true
         configTextField(topTextField)
         configTextField(bottomTextField)
+        bottomTextField.delegate = self
+        topTextField.delegate = self
+#if targetEnvironment(simulator)
+        cameraButton.isEnabled = false
+#else
+        cameraButton.isEnabled = true
+#endif
     }
     
     override func didReceiveMemoryWarning() {
@@ -39,6 +51,9 @@ class EditMemeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        bottomTextField.delegate = self
+        topTextField.delegate = self
+        cancelBtnEdit.isHidden = true
         subscribeToKeyboardNotifications()
     }
     
@@ -66,22 +81,38 @@ class EditMemeViewController: UIViewController {
         pickImage(source: .camera)
     }
     
+    @IBAction func cancelBtnTapped(_ sender: Any) {
+        imagePickerView.image = nil
+        topTextField.text = nil
+        bottomTextField.text = nil
+        
+        topEdited = false
+        bottomEdited = false
+        topTextField.isHidden = true
+        bottomTextField.isHidden = true
+        cancelBtnEdit.isHidden = true
+    }
     
     func subscribeToKeyboardNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     func unsubscribeFromKeyboardNotifications() {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-        
     }
     
     @objc func keyboardWillShow(_ notification:Notification) {
-        
-        view.frame.origin.y -= getKeyboardHeight(notification)
+        if bottomTextField.isFirstResponder{
+            view.frame.origin.y -= getKeyboardHeight(notification)
+        }
+    }
+    
+    @objc func keyboardWillHide(_ notification: Notification) {
+        if bottomTextField.isFirstResponder{
+            view.frame.origin.y = 0
+        }
     }
     
     func getKeyboardHeight(_ notification:Notification) -> CGFloat {
@@ -110,16 +141,38 @@ class EditMemeViewController: UIViewController {
     func generateMemedImage() -> UIImage {
         
         // TODO: Hide toolbar and navbar
-        
+        topToolBar.isHidden = true
+        bottomToolBar.isHidden = true
         // Render view to an image
         UIGraphicsBeginImageContext(self.view.frame.size)
         view.drawHierarchy(in: self.view.frame, afterScreenUpdates: true)
         let memedImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
-        
         // TODO: Show toolbar and navbar
-        
+        topToolBar.isHidden = false
+        bottomToolBar.isHidden = false
         return memedImage
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField == topTextField && !topEdited {
+            textField.text = ""
+            topEdited = true
+        }
+        
+        if textField == bottomTextField && !bottomEdited {
+            textField.text = ""
+            bottomEdited = true
+        }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
 
@@ -128,6 +181,7 @@ extension EditMemeViewController: UIImagePickerControllerDelegate {
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             imagePickerView.image = image
             imagePickerView.contentMode = UIView.ContentMode.scaleAspectFit
+            cancelBtnEdit.isHidden = false
             topTextField.isHidden = false
             bottomTextField.isHidden = false
             dismiss(animated: true, completion: nil)

@@ -39,6 +39,11 @@
                                             <action selector="activityViewController:" destination="BYZ-38-t0r" id="2Mi-91-DC4"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem systemItem="cancel" id="QuQ-mj-253">
+                                        <connections>
+                                            <action selector="cancelBtnTapped:" destination="BYZ-38-t0r" id="ati-3v-9ot"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jib-2o-ULJ" userLabel="Bottom Toolbar">
@@ -94,9 +99,12 @@
                     <connections>
                         <outlet property="albumButton" destination="aun-qk-N58" id="UPx-sj-ghx"/>
                         <outlet property="bottomTextField" destination="CBB-jV-Ogx" id="qgs-4e-d70"/>
+                        <outlet property="bottomToolBar" destination="jib-2o-ULJ" id="wzu-aP-Qcn"/>
                         <outlet property="cameraButton" destination="eal-nj-Eml" id="7f1-0S-K4J"/>
+                        <outlet property="cancelBtnEdit" destination="QuQ-mj-253" id="YaD-7M-f3V"/>
                         <outlet property="imagePickerView" destination="729-iT-UDi" id="djM-VV-9Gs"/>
                         <outlet property="topTextField" destination="euf-Oo-azc" id="1Dz-tI-Fnl"/>
+                        <outlet property="topToolBar" destination="GuZ-1x-FCL" id="BuF-Bg-ppG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
