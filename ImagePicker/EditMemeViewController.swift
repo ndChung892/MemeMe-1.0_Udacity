@@ -34,8 +34,8 @@ class EditMemeViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         topTextField.isHidden = true
         bottomTextField.isHidden = true
-        configTextField(topTextField)
-        configTextField(bottomTextField)
+        configTextField(topTextField, "TOP")
+        configTextField(bottomTextField, "BOTTOM")
         bottomTextField.delegate = self
         topTextField.delegate = self
 #if targetEnvironment(simulator)
@@ -62,15 +62,20 @@ class EditMemeViewController: UIViewController, UITextFieldDelegate {
         unsubscribeFromKeyboardNotifications()
     }
 
-    private func configTextField(_ textField: UITextField) {
+    private func configTextField(_ textField: UITextField,_ placeHolderText: String) {
         textField.defaultTextAttributes = [
             .font: UIFont(name:"HelveticaNeue-CondensedBlack", size: 35.0)!,
             .foregroundColor: UIColor.white,
             .strokeColor: UIColor.black,
             .strokeWidth: -0.5
         ]
-        
-        textField.textColor = UIColor.black
+        textField.attributedPlaceholder = NSAttributedString(
+            string: placeHolderText,
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]
+        )
+        textField.minimumFontSize = 12
+        textField.autocapitalizationType = UITextAutocapitalizationType.allCharacters
+        textField.textColor = UIColor.white
         textField.textAlignment = .center
     }
     @IBAction func pickAnImageFromAlbum(_ sender: Any) {
@@ -168,6 +173,11 @@ class EditMemeViewController: UIViewController, UITextFieldDelegate {
             textField.text = ""
             bottomEdited = true
         }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+//        let textSize = textField.text?.size(withAttributes: [.font: textField.font!]) ?? CGSize.zero
+//        textField.bounds.size.height = textSize.height
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
