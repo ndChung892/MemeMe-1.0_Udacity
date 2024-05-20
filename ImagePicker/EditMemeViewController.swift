@@ -6,14 +6,59 @@
 //
 
 import UIKit
+import Foundation
 
-struct Meme {
-    var topText: String
-    var bottomText: String
-    var imagePicker: UIImage
-    var memeImage: UIImage
+struct Meme: Codable {
+    var topText: String?
+    var bottomText: String?
+    var imagePicker: UIImage?
+    var memeImage: UIImage?
     
+    enum CodingKeys: String, CodingKey {
+        case topText
+        case bottomText
+        case imagePicker
+        case memeImage
+    }
+    
+    init(topText: String? = nil, bottomText: String? = nil, imagePicker: UIImage? = nil, memeImage: UIImage? = nil) {
+        self.topText = topText
+        self.bottomText = bottomText
+        self.imagePicker = imagePicker
+        self.memeImage = memeImage
+    }
+    
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        topText = try values.decodeIfPresent(String.self, forKey: .topText)
+        bottomText = try values.decodeIfPresent(String.self, forKey: .bottomText)
+        
+        if let imagePickerData = try values.decodeIfPresent(Data.self, forKey: .imagePicker) {
+            imagePicker = UIImage(data: imagePickerData)
+        }
+        
+        if let memeImageData = try values.decodeIfPresent(Data.self, forKey: .memeImage) {
+            memeImage = UIImage(data: memeImageData)
+        }
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(topText, forKey: .topText)
+        try container.encodeIfPresent(bottomText, forKey: .bottomText)
+        
+        if let imagePicker = imagePicker {
+            let imagePickerData = imagePicker.pngData()
+            try container.encodeIfPresent(imagePickerData, forKey: .imagePicker)
+        }
+        
+        if let memeImage = memeImage {
+            let memeImageData = memeImage.pngData()
+            try container.encodeIfPresent(memeImageData, forKey: .memeImage)
+        }
+    }
 }
+
 
 class EditMemeViewController: UIViewController, UITextFieldDelegate {
     
@@ -29,6 +74,7 @@ class EditMemeViewController: UIViewController, UITextFieldDelegate {
     
     var topEdited = false
     var bottomEdited = false
+    var memes: [Meme] = []
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +84,7 @@ class EditMemeViewController: UIViewController, UITextFieldDelegate {
         configTextField(bottomTextField, "BOTTOM")
         bottomTextField.delegate = self
         topTextField.delegate = self
+        imagePickerView.image = UIImage(named: "")
 #if targetEnvironment(simulator)
         cameraButton.isEnabled = false
 #else
@@ -140,7 +187,28 @@ class EditMemeViewController: UIViewController, UITextFieldDelegate {
     }
     
     func save() {
-        _ = Meme(topText: topTextField.text!, bottomText: bottomTextField.text!, imagePicker: imagePickerView.image!, memeImage: generateMemedImage())
+        if let savedMemesData = UserDefaults.standard.data(forKey: "Meme") {
+            if let decodedMemes = try? JSONDecoder().decode([Meme].self, from: savedMemesData) {
+                memes = decodedMemes
+            }
+        }
+
+        
+        let meme = Meme(topText: topTextField.text!,
+                        bottomText: bottomTextField.text!,
+                        imagePicker: imagePickerView.image!,
+                        memeImage: generateMemedImage())
+        
+    
+        memes.append(meme)
+        
+        do {
+            let encodedMemes = try JSONEncoder().encode(memes)
+            UserDefaults.standard.set(encodedMemes, forKey: "Meme")
+        } catch {
+            print("Encode fail: \(error)")
+        }
+        NotificationCenter.default.post(name: NSNotification.Name("MemeSaved"), object: nil)
     }
     
     func generateMemedImage() -> UIImage {
@@ -176,8 +244,8 @@ class EditMemeViewController: UIViewController, UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-//        let textSize = textField.text?.size(withAttributes: [.font: textField.font!]) ?? CGSize.zero
-//        textField.bounds.size.height = textSize.height
+        let textSize = textField.text?.size(withAttributes: [.font: textField.font!]) ?? CGSize.zero
+        textField.bounds.size.height = textSize.height
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

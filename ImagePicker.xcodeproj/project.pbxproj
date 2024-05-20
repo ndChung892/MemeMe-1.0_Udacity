@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4927CF6D2BF20FA6004CD421 /* TableViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4927CF6C2BF20FA6004CD421 /* TableViewViewController.swift */; };
+		4927CF6F2BF215A7004CD421 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4927CF6E2BF215A7004CD421 /* CollectionViewController.swift */; };
+		4927CF712BF5007D004CD421 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4927CF702BF5007D004CD421 /* Extension.swift */; };
+		4927CF772BF512B3004CD421 /* ListMemeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4927CF752BF512B3004CD421 /* ListMemeCollectionViewCell.swift */; };
+		4927CF782BF512B3004CD421 /* ListMemeCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4927CF762BF512B3004CD421 /* ListMemeCollectionViewCell.xib */; };
+		4927CF7B2BF512CF004CD421 /* ListMemeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4927CF792BF512CF004CD421 /* ListMemeTableViewCell.swift */; };
+		4927CF7C2BF512CF004CD421 /* ListMemeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4927CF7A2BF512CF004CD421 /* ListMemeTableViewCell.xib */; };
 		49535BDE2BCE1A6C008AEC6E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49535BDD2BCE1A6C008AEC6E /* AppDelegate.swift */; };
 		49535BE02BCE1A6C008AEC6E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49535BDF2BCE1A6C008AEC6E /* SceneDelegate.swift */; };
 		49535BE22BCE1A6C008AEC6E /* EditMemeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49535BE12BCE1A6C008AEC6E /* EditMemeViewController.swift */; };
@@ -16,6 +23,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4927CF6C2BF20FA6004CD421 /* TableViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewViewController.swift; sourceTree = "<group>"; };
+		4927CF6E2BF215A7004CD421 /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
+		4927CF702BF5007D004CD421 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		4927CF752BF512B3004CD421 /* ListMemeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListMemeCollectionViewCell.swift; sourceTree = "<group>"; };
+		4927CF762BF512B3004CD421 /* ListMemeCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListMemeCollectionViewCell.xib; sourceTree = "<group>"; };
+		4927CF792BF512CF004CD421 /* ListMemeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListMemeTableViewCell.swift; sourceTree = "<group>"; };
+		4927CF7A2BF512CF004CD421 /* ListMemeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListMemeTableViewCell.xib; sourceTree = "<group>"; };
 		49535BDA2BCE1A6C008AEC6E /* ImagePicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImagePicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49535BDD2BCE1A6C008AEC6E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		49535BDF2BCE1A6C008AEC6E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -37,6 +51,36 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4927CF722BF5122F004CD421 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				49535BDD2BCE1A6C008AEC6E /* AppDelegate.swift */,
+				49535BDF2BCE1A6C008AEC6E /* SceneDelegate.swift */,
+				49535BE62BCE1A6D008AEC6E /* Assets.xcassets */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		4927CF732BF5124B004CD421 /* CollectionViewController */ = {
+			isa = PBXGroup;
+			children = (
+				4927CF6E2BF215A7004CD421 /* CollectionViewController.swift */,
+				4927CF752BF512B3004CD421 /* ListMemeCollectionViewCell.swift */,
+				4927CF762BF512B3004CD421 /* ListMemeCollectionViewCell.xib */,
+			);
+			path = CollectionViewController;
+			sourceTree = "<group>";
+		};
+		4927CF742BF51266004CD421 /* TableViewController */ = {
+			isa = PBXGroup;
+			children = (
+				4927CF6C2BF20FA6004CD421 /* TableViewViewController.swift */,
+				4927CF792BF512CF004CD421 /* ListMemeTableViewCell.swift */,
+				4927CF7A2BF512CF004CD421 /* ListMemeTableViewCell.xib */,
+			);
+			path = TableViewController;
+			sourceTree = "<group>";
+		};
 		49535BD12BCE1A6C008AEC6E = {
 			isa = PBXGroup;
 			children = (
@@ -56,13 +100,14 @@
 		49535BDC2BCE1A6C008AEC6E /* ImagePicker */ = {
 			isa = PBXGroup;
 			children = (
-				49535BDD2BCE1A6C008AEC6E /* AppDelegate.swift */,
-				49535BDF2BCE1A6C008AEC6E /* SceneDelegate.swift */,
+				4927CF742BF51266004CD421 /* TableViewController */,
+				4927CF732BF5124B004CD421 /* CollectionViewController */,
+				4927CF722BF5122F004CD421 /* Source */,
 				49535BE12BCE1A6C008AEC6E /* EditMemeViewController.swift */,
 				49535BE32BCE1A6C008AEC6E /* Main.storyboard */,
-				49535BE62BCE1A6D008AEC6E /* Assets.xcassets */,
 				49535BE82BCE1A6D008AEC6E /* LaunchScreen.storyboard */,
 				49535BEB2BCE1A6D008AEC6E /* Info.plist */,
+				4927CF702BF5007D004CD421 /* Extension.swift */,
 			);
 			path = ImagePicker;
 			sourceTree = "<group>";
@@ -126,7 +171,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				49535BEA2BCE1A6D008AEC6E /* LaunchScreen.storyboard in Resources */,
+				4927CF7C2BF512CF004CD421 /* ListMemeTableViewCell.xib in Resources */,
 				49535BE72BCE1A6D008AEC6E /* Assets.xcassets in Resources */,
+				4927CF782BF512B3004CD421 /* ListMemeCollectionViewCell.xib in Resources */,
 				49535BE52BCE1A6C008AEC6E /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -138,9 +185,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4927CF6F2BF215A7004CD421 /* CollectionViewController.swift in Sources */,
+				4927CF7B2BF512CF004CD421 /* ListMemeTableViewCell.swift in Sources */,
+				4927CF712BF5007D004CD421 /* Extension.swift in Sources */,
+				4927CF772BF512B3004CD421 /* ListMemeCollectionViewCell.swift in Sources */,
 				49535BE22BCE1A6C008AEC6E /* EditMemeViewController.swift in Sources */,
 				49535BDE2BCE1A6C008AEC6E /* AppDelegate.swift in Sources */,
 				49535BE02BCE1A6C008AEC6E /* SceneDelegate.swift in Sources */,
+				4927CF6D2BF20FA6004CD421 /* TableViewViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
