@@ -93,6 +93,35 @@
             </objects>
             <point key="canvasLocation" x="-1173" y="-342"/>
         </scene>
+        <!--Detail Meme View Controller-->
+        <scene sceneID="WLk-5M-fu1">
+            <objects>
+                <viewController storyboardIdentifier="detailMemeViewController" id="0n2-mV-AYl" customClass="DetailMemeViewController" customModule="ImagePicker" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="f3F-xB-BM3">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LsC-WN-OQI">
+                                <rect key="frame" x="10" y="103" width="373" height="671"/>
+                            </imageView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="dyB-U9-MCP"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="dyB-U9-MCP" firstAttribute="trailing" secondItem="LsC-WN-OQI" secondAttribute="trailing" constant="10" id="7TT-HZ-4BA"/>
+                            <constraint firstItem="LsC-WN-OQI" firstAttribute="leading" secondItem="dyB-U9-MCP" secondAttribute="leading" constant="10" id="85j-Pe-J8m"/>
+                            <constraint firstItem="LsC-WN-OQI" firstAttribute="top" secondItem="dyB-U9-MCP" secondAttribute="top" constant="44" id="Yyn-UZ-esY"/>
+                            <constraint firstItem="dyB-U9-MCP" firstAttribute="bottom" secondItem="LsC-WN-OQI" secondAttribute="bottom" constant="44" id="ZET-JZ-VWl"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imageMeme" destination="LsC-WN-OQI" id="FCm-pY-1fA"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DhN-Uv-in9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="7" y="-637"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="iSx-k7-v2n">
             <objects>
@@ -175,6 +204,11 @@
                                             <action selector="activityViewController:" destination="BYZ-38-t0r" id="2Mi-91-DC4"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="dyC-4K-uNh"/>
+                                    <barButtonItem title="Edit Meme" id="xH1-kx-s6B">
+                                        <color key="tintColor" systemColor="labelColor"/>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="div-Et-pm8"/>
                                     <barButtonItem systemItem="cancel" id="QuQ-mj-253">
                                         <connections>
                                             <action selector="cancelBtnTapped:" destination="BYZ-38-t0r" id="ati-3v-9ot"/>
@@ -237,12 +271,14 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityButton" destination="vbr-Fg-nZN" id="9rS-f3-erJ"/>
                         <outlet property="albumButton" destination="aun-qk-N58" id="UPx-sj-ghx"/>
                         <outlet property="bottomTextField" destination="CBB-jV-Ogx" id="qgs-4e-d70"/>
                         <outlet property="bottomToolBar" destination="jib-2o-ULJ" id="wzu-aP-Qcn"/>
                         <outlet property="cameraButton" destination="eal-nj-Eml" id="7f1-0S-K4J"/>
                         <outlet property="cancelBtnEdit" destination="QuQ-mj-253" id="YaD-7M-f3V"/>
                         <outlet property="imagePickerView" destination="729-iT-UDi" id="djM-VV-9Gs"/>
+                        <outlet property="titleButton" destination="xH1-kx-s6B" id="Kfs-Tl-7AL"/>
                         <outlet property="topTextField" destination="euf-Oo-azc" id="1Dz-tI-Fnl"/>
                         <outlet property="topToolBar" destination="GuZ-1x-FCL" id="BuF-Bg-ppG"/>
                     </connections>

@@ -71,6 +71,8 @@ class EditMemeViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var imagePickerView: UIImageView!
     @IBOutlet weak var topToolBar: UIToolbar!
     @IBOutlet weak var bottomToolBar: UIToolbar!
+    @IBOutlet weak var activityButton: UIBarButtonItem!
+    @IBOutlet weak var titleButton: UIBarButtonItem!
     
     var topEdited = false
     var bottomEdited = false
@@ -85,6 +87,11 @@ class EditMemeViewController: UIViewController, UITextFieldDelegate {
         bottomTextField.delegate = self
         topTextField.delegate = self
         imagePickerView.image = UIImage(named: "")
+        // Setup content of Edit meme screen
+        titleButton.isEnabled = false
+        titleButton.setTitleTextAttributes([.foregroundColor : UIColor.black], for: .disabled)
+        
+        
 #if targetEnvironment(simulator)
         cameraButton.isEnabled = false
 #else
@@ -100,7 +107,7 @@ class EditMemeViewController: UIViewController, UITextFieldDelegate {
         super.viewWillAppear(animated)
         bottomTextField.delegate = self
         topTextField.delegate = self
-        cancelBtnEdit.isHidden = true
+        activityButton.isHidden = true
         subscribeToKeyboardNotifications()
     }
     
@@ -142,7 +149,7 @@ class EditMemeViewController: UIViewController, UITextFieldDelegate {
         bottomEdited = false
         topTextField.isHidden = true
         bottomTextField.isHidden = true
-        cancelBtnEdit.isHidden = true
+        dismiss(animated: true, completion: nil)
     }
     
     func subscribeToKeyboardNotifications() {
@@ -259,9 +266,9 @@ extension EditMemeViewController: UIImagePickerControllerDelegate {
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             imagePickerView.image = image
             imagePickerView.contentMode = UIView.ContentMode.scaleAspectFit
-            cancelBtnEdit.isHidden = false
             topTextField.isHidden = false
             bottomTextField.isHidden = false
+            activityButton.isHidden = false
             dismiss(animated: true, completion: nil)
         }
     }
@@ -270,6 +277,7 @@ extension EditMemeViewController: UIImagePickerControllerDelegate {
         imagePickerView.image = nil
         topTextField.isHidden = true
         bottomTextField.isHidden = true
+        activityButton.isHidden = true
         dismiss(animated: true, completion: nil)
     }
 }

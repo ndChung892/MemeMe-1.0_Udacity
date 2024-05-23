@@ -12,6 +12,7 @@ class TableViewViewController: UIViewController {
     let editMemeVC = EditMemeViewController()
     var memes: [Meme] = []
     @IBOutlet weak var tableView: UITableView!
+    var isEditingMode: Bool = false
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavBar()
@@ -21,6 +22,7 @@ class TableViewViewController: UIViewController {
         handleNotificationCenter()
         getDataFromUserDefault()
     }
+
     
     func handleNotificationCenter() {
         NotificationCenter.default.addObserver(self,
@@ -49,6 +51,14 @@ class TableViewViewController: UIViewController {
 extension TableViewViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 150
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let storyboard = self.storyboard?.instantiateViewController(identifier: "detailMemeViewController") as? DetailMemeViewController else {
+            return
+        }
+        storyboard.image = memes[indexPath.row].memeImage
+        self.navigationController?.pushViewController(storyboard, animated: true)
     }
 }
 

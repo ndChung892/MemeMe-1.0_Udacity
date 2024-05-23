@@ -8,9 +8,11 @@
 import UIKit
 
 class CollectionViewController: UIViewController {
-
+    
     @IBOutlet weak var collectionView: UICollectionView!
     var memes: [Meme] = []
+    let detailVC = DetailMemeViewController()
+    var indexPath: IndexPath?
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavBar()
@@ -53,10 +55,32 @@ class CollectionViewController: UIViewController {
     }
 }
 
+extension CollectionViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let storyboard = self.storyboard?.instantiateViewController(identifier: "detailMemeViewController") as? DetailMemeViewController else {
+            return
+        }
+        storyboard.image = memes[indexPath.row].memeImage
+        self.navigationController?.pushViewController(storyboard, animated: true)
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+            super.viewWillTransition(to: size, with: coordinator)
+            coordinator.animate(alongsideTransition: { context in
+                self.collectionView.collectionViewLayout.invalidateLayout()
+            }, completion: { context in
+                self.collectionView.reloadData()
+            })
+    }
+}
+
 extension CollectionViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let bounds = UIScreen.main.bounds
-        let width = (bounds.width - 30)/3
+        let isLandscape = bounds.width > bounds.height
+        let cellsPerRow: CGFloat = isLandscape ? 3 : 2
+        let totalSpacing = (cellsPerRow - 1) * 10
+        let width = (bounds.width - totalSpacing) / cellsPerRow
         let height = width * 1.5
         return CGSize(width: width, height: height)
     }
